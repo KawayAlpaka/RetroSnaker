@@ -21,7 +21,7 @@ import {TestPageModule} from "../pages/test/test.module";
     GamePageModule,
     TestPageModule,
     BrowserModule,
-    // AppRoutingModule,
+    AppRoutingModule,
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
