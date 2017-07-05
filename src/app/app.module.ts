@@ -9,18 +9,19 @@ import { HomePage } from '../pages/home/home';
 import {AppRoutingModule} from "./app-routing.module";
 import {GamePage} from "../pages/game/game";
 import {GamePageModule} from "../pages/game/game.module";
+import {TestPageModule} from "../pages/test/test.module";
 
 @NgModule({
   declarations: [
     MyApp,
     // GamePage,
     HomePage
-
   ],
   imports: [
     GamePageModule,
+    TestPageModule,
     BrowserModule,
-    AppRoutingModule,
+    // AppRoutingModule,
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],

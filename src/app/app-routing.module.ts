@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import {Routes,RouterModule} from "@angular/router"
 import {HomePage} from "../pages/home/home";
 import {GamePage} from "../pages/game/game";
+import {TestPage} from "../pages/test/test";
 
 
 const routes:Routes = [
@@ -10,6 +11,9 @@ const routes:Routes = [
   },
   {
     path:"game",component:GamePage
+  },
+  {
+    path:"test",component:TestPage
   },
   {
     path:"**",redirectTo:"home"

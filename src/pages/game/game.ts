@@ -7,7 +7,10 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
  * See http://ionicframework.com/docs/components/#navigation for more info
  * on Ionic pages and navigation.
  */
-@IonicPage()
+@IonicPage({
+  name: 'game',
+  segment: 'game'
+})
 @Component({
   selector: 'page-game',
   templateUrl: 'game.html',
