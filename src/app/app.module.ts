@@ -7,18 +7,18 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import {AppRoutingModule} from "./app-routing.module";
-import {GamePage} from "../pages/game/game";
 import {GamePageModule} from "../pages/game/game.module";
 import {TestPageModule} from "../pages/test/test.module";
+import {Game1PageModule} from "../pages/game1/game1.module";
 
 @NgModule({
   declarations: [
     MyApp,
-    // GamePage,
     HomePage
   ],
   imports: [
     GamePageModule,
+    Game1PageModule,
     TestPageModule,
     BrowserModule,
     AppRoutingModule,
@@ -27,7 +27,6 @@ import {TestPageModule} from "../pages/test/test.module";
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    // GamePage
     HomePage
   ],
   providers: [
