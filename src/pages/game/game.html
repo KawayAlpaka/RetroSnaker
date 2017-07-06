@@ -7,14 +7,34 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>game</ion-title>
+    <ion-title>是男人就长到1000cm</ion-title>
   </ion-navbar>
 
 </ion-header>
 
-
 <ion-content padding>
   <!--routerLink不支持，原因不详-->
   <!--<a [routerLink]="['/home']">home</a>-->
-  <a href="#/home">home</a>
+  <!--<a href="#/home">home</a>-->
+  <!--<button (click)="test()">test</button>-->
+  <!--<button (click)="createBean()">add bean</button>-->
+  <div>使用上下左右键控制那根的运动方向</div>
+  <div>
+    <span>当前长度:</span>
+    <span>{{mySnaker.bodys.length}}</span>
+    <span>cm</span>
+  </div>
+  <div>
+    <span>场上豆子:</span>
+    <span>{{beans.length}}</span>
+    <span>个</span>
+  </div>
+  <!--实验证明，就算最土的碰撞检测的性能消耗，也没有蛇身部分的动画性能消耗高-->
+  <!--<div class="wall" [ngStyle]="{'width.px': wall.width,'height.px': wall.height}">-->
+    <!--<div class="snaker">-->
+      <!--<div class="snaker-head" [ngStyle]="{'top.px': mySnaker.head.y,'left.px': mySnaker.head.x}"></div>-->
+      <!--<div *ngFor="let body of mySnaker.bodys" class="snaker-body" [ngStyle]="{'top.px': body.y,'left.px': body.x}"></div>-->
+    <!--</div>-->
+    <!--<div *ngFor="let bean of beans" class="bean" [ngStyle]="{'top.px': bean.y,'left.px': bean.x}"></div>-->
+  <!--</div>-->
 </ion-content>
