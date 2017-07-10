@@ -12,4 +12,8 @@ export class HomePage {
   ) {
 
   }
+
+  hold(){
+    console.log("hold");
+  }
 }
