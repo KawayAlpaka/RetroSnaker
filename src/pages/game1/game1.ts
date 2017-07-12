@@ -20,6 +20,8 @@ export class Game1Page {
   private ctx:any;
   private preRefreshTime:number;
   private shouldRefresh:boolean;
+  private wall:any;
+  private beans:any;
 
   constructor(
     // public navCtrl: NavController, public navParams: NavParams
@@ -30,12 +32,16 @@ export class Game1Page {
       speed:8,
       direction:"right",
       life:"life",
-      long:300,
+      long:20,
       his:[],
       head:{
         x:100, y:100
       }
     };
+    this.beans = [];
+    this.wall = {};
+    this.wall.width = 1000;
+    this.wall.height = 600;
 
   }
 
@@ -55,6 +61,13 @@ export class Game1Page {
 
     };
     window.requestAnimationFrame(ani);
+
+    setInterval(()=>{
+      if (this.mySnaker.life == "life"){
+        this.createBean();
+        console.log(this.beans);
+      }
+    },3000);
   }
   ngOnDestroy(){
     console.log("game1 ngOnDestroy");
@@ -95,22 +108,22 @@ export class Game1Page {
     console.log(console.log(snaker.his));
     switch (event.code){
       case "ArrowUp":
-        if(snaker.direction != "down" || snaker.direction != "up" ){
+        if(snaker.direction != "down" && snaker.direction != "up" ){
           this.changeDirection(snaker,"up");
         }
         break;
       case "ArrowDown":
-        if(snaker.direction != "down" || snaker.direction != "up" ){
+        if(snaker.direction != "down" && snaker.direction != "up" ){
           this.changeDirection(snaker,"down");
         }
         break;
       case "ArrowLeft":
-        if(snaker.direction != "right" || snaker.direction != "left"){
+        if(snaker.direction != "right" && snaker.direction != "left"){
           this.changeDirection(snaker,"left");
         }
         break;
       case "ArrowRight":
-        if(snaker.direction != "right" || snaker.direction != "left"){
+        if(snaker.direction != "right" && snaker.direction != "left"){
           this.changeDirection(snaker,"right");
         }
         break;
@@ -123,8 +136,17 @@ export class Game1Page {
   }
   refreshCanvas(ctx){
     if(this.mySnaker.life == "life"){
-      ctx.clearRect(0,0,500, 500);
+      ctx.clearRect(0,0,this.wall.width, this.wall.height);
+      //画豆豆
+      ctx.strokeStyle="blue";
+      this.beans.forEach((bean)=>{
+        ctx.beginPath();
+        ctx.arc(bean.x, bean.y, bean.r, 0, Math.PI * 2);
+        ctx.stroke();
+      });
       ctx.beginPath();
+      ctx.fillStyle = "red";
+      ctx.strokeStyle="red";
       ctx.arc(this.mySnaker.head.x, this.mySnaker.head.y, 4, 0, Math.PI * 2);
       ctx.moveTo(this.mySnaker.head.x,this.mySnaker.head.y);
       ctx.lineWidth = 6;
@@ -139,7 +161,6 @@ export class Game1Page {
           prePoint.y = this.mySnaker.his[i-1].y;
         }
         let distance = this.getDistance(prePoint,this.mySnaker.his[i]);
-        // console.log(_long +"-"+distance);
         if(_long > distance){
           _long = _long - distance;
           ctx.lineTo(this.mySnaker.his[i].x,this.mySnaker.his[i].y);
@@ -169,13 +190,16 @@ export class Game1Page {
           this.mySnaker.his[i] = point;
           ctx.lineTo(point.x,point.y);
           this.mySnaker.his.splice(i+1,this.mySnaker.his.length - (i+1));
-          // console.log("debug");
           break;
         }
       }
       ctx.stroke();
       //碰撞检查-自身
       this.collideSelf(this.mySnaker);
+      //碰撞检查-撞墙
+      this.collideWall(this.mySnaker);
+      //碰撞检查-吃豆
+      this.eat(this.mySnaker);
     }
   }
   private getDistance(p1,p2){
@@ -200,36 +224,71 @@ export class Game1Page {
     return Math.sqrt((x - px) * (x - px) + (y - py) * (y - py));
   }
   private collideSelf(snaker){
-    for(let i=2;i<snaker.his.length;i++){
-      let distance = this.PointToSegDist(snaker.head.x,snaker.head.y,snaker.his[i-1].x,snaker.his[i-1].y,snaker.his[i].x,snaker.his[i].y);
-      if(distance < 10){
-        console.log(distance);
-        console.log(snaker);
-        snaker.life = "die";
-        let confirm = this.alertCtrl.create({
-          title: 'Game Over',
-          message: 'Game Over',
-          buttons: [
-            {
-              text: 'Again',
-              handler: () => {
-                console.log('Again clicked');
-                snaker.life = "life";
-                snaker.head.x = 300;
-                snaker.head.y = 300;
-                snaker.his = [];
-              }
-            },
-            {
-              text: 'Cancel',
-              handler: () => {
-                console.log('Cancel clicked');
-              }
-            }
-          ]
-        });
-        confirm.present();
+    if (snaker.life == "life") {
+      for(let i=2;i<snaker.his.length;i++){
+        let distance = this.PointToSegDist(snaker.head.x,snaker.head.y,snaker.his[i-1].x,snaker.his[i-1].y,snaker.his[i].x,snaker.his[i].y);
+        if(distance < 10){
+          console.log(distance);
+          console.log(snaker);
+          snaker.life = "die";
+          this.gameOver();
+        }
       }
     }
+  }
+  createBean(){
+    if(this.beans.length < 500){
+      var bean:any = {};
+      bean.y = 50 + parseInt(Math.random() * (this.wall.height - 100)+"");
+      bean.x = 50 + parseInt(Math.random() * (this.wall.width - 100)+"");
+      bean.r = 2 + parseInt(Math.random() * 3+"");
+      this.beans.push(bean);
+    }
+  }
+  private eat(snaker){
+    if (snaker.life == "life") {
+      this.beans = this.beans.filter((bean)=> {
+        if (this.getDistance(snaker.head, bean) <= 12) {
+          snaker.long += bean.r * 2;
+          return false;
+        } else {
+          return true;
+        }
+      });
+    }
+  }
+  private collideWall(snaker){
+    if(snaker.life == "life") {
+      if (snaker.head.x <= 0 || snaker.head.x >= this.wall.width || snaker.head.y <= 0 || snaker.head.y >= this.wall.height) {
+        snaker.life = "die";
+        this.gameOver();
+      }
+    }
+  }
+  private gameOver(){
+    let confirm = this.alertCtrl.create({
+      title: 'Game Over',
+      message: 'Game Over',
+      buttons: [
+        {
+          text: 'Again',
+          handler: () => {
+            console.log('Again clicked');
+            this.mySnaker.life = "life";
+            this.mySnaker.head.x = 200;
+            this.mySnaker.head.y = 300;
+            this.mySnaker.his = [];
+            this.mySnaker.long = 10;
+          }
+        },
+        {
+          text: 'Cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        }
+      ]
+    });
+    confirm.present();
   }
 }
