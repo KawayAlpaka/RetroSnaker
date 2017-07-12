@@ -65,7 +65,6 @@ export class Game1Page {
     setInterval(()=>{
       if (this.mySnaker.life == "life"){
         this.createBean();
-        console.log(this.beans);
       }
     },3000);
   }

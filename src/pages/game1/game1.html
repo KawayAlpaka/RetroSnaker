@@ -14,5 +14,16 @@
 
 
 <ion-content padding>
+  <div>使用上下左右键控制那根的运动方向</div>
+  <div>
+    <span>当前长度:</span>
+    <span>{{mySnaker.long}}</span>
+    <span>cm</span>
+  </div>
+  <div>
+    <span>场上豆子:</span>
+    <span>{{beans.length}}</span>
+    <span>个</span>
+  </div>
   <canvas class="wall" #canvas [width]="wall.width" [height]="wall.height"></canvas>
 </ion-content>
