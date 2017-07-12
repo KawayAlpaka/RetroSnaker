@@ -130,19 +130,20 @@ export class Game1Page {
       ctx.lineWidth = 6;
       let _long = this.mySnaker.long;
       for(let i=0;i<this.mySnaker.his.length;i++){
-        let distance = this.getDistance(this.mySnaker.head,this.mySnaker.his[i]);
+        let prePoint:any = {};
+        if(i==0){
+          prePoint.x = this.mySnaker.head.x;
+          prePoint.y = this.mySnaker.head.y;
+        }else{
+          prePoint.x = this.mySnaker.his[i-1].x;
+          prePoint.y = this.mySnaker.his[i-1].y;
+        }
+        let distance = this.getDistance(prePoint,this.mySnaker.his[i]);
+        // console.log(_long +"-"+distance);
         if(_long > distance){
           _long = _long - distance;
           ctx.lineTo(this.mySnaker.his[i].x,this.mySnaker.his[i].y);
         }else{
-          let prePoint:any = {};
-          if(i==0){
-            prePoint.x = this.mySnaker.head.x;
-            prePoint.y = this.mySnaker.head.y;
-          }else{
-            prePoint.x = this.mySnaker.his[i-1].x;
-            prePoint.y = this.mySnaker.his[i-1].y;
-          }
           let point:any = {};
           // 倾斜的情况
           // let rad = Math.atan((this.mySnaker.his[i].y-prePoint.y)/(this.mySnaker.his[i].x-prePoint.x));
@@ -168,43 +169,13 @@ export class Game1Page {
           this.mySnaker.his[i] = point;
           ctx.lineTo(point.x,point.y);
           this.mySnaker.his.splice(i+1,this.mySnaker.his.length - (i+1));
-
+          // console.log("debug");
           break;
         }
       }
       ctx.stroke();
       //碰撞检查-自身
-      for(let i=2;i<this.mySnaker.his.length;i++){
-        let distance = this.PointToSegDist(this.mySnaker.head.x,this.mySnaker.head.y,this.mySnaker.his[i-1].x,this.mySnaker.his[i-1].y,this.mySnaker.his[i].x,this.mySnaker.his[i].y);
-        if(distance < 10){
-          console.log(distance);
-          console.log(this.mySnaker);
-          this.mySnaker.life = "die";
-          let confirm = this.alertCtrl.create({
-            title: 'Game Over',
-            message: 'Game Over',
-            buttons: [
-              {
-                text: 'Again',
-                handler: () => {
-                  console.log('Again clicked');
-                  this.mySnaker.life = "life";
-                  this.mySnaker.head.x = 300;
-                  this.mySnaker.head.y = 300;
-                  this.mySnaker.his = [];
-                }
-              },
-              {
-                text: 'Cancel',
-                handler: () => {
-                  console.log('Cancel clicked');
-                }
-              }
-            ]
-          });
-          confirm.present();
-        }
-      }
+      this.collideSelf(this.mySnaker);
     }
   }
   private getDistance(p1,p2){
@@ -227,5 +198,38 @@ export class Game1Page {
     let px = x1 + (x2 - x1) * r;
     let py = y1 + (y2 - y1) * r;
     return Math.sqrt((x - px) * (x - px) + (y - py) * (y - py));
+  }
+  private collideSelf(snaker){
+    for(let i=2;i<snaker.his.length;i++){
+      let distance = this.PointToSegDist(snaker.head.x,snaker.head.y,snaker.his[i-1].x,snaker.his[i-1].y,snaker.his[i].x,snaker.his[i].y);
+      if(distance < 10){
+        console.log(distance);
+        console.log(snaker);
+        snaker.life = "die";
+        let confirm = this.alertCtrl.create({
+          title: 'Game Over',
+          message: 'Game Over',
+          buttons: [
+            {
+              text: 'Again',
+              handler: () => {
+                console.log('Again clicked');
+                snaker.life = "life";
+                snaker.head.x = 300;
+                snaker.head.y = 300;
+                snaker.his = [];
+              }
+            },
+            {
+              text: 'Cancel',
+              handler: () => {
+                console.log('Cancel clicked');
+              }
+            }
+          ]
+        });
+        confirm.present();
+      }
+    }
   }
 }
