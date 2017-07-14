@@ -10,11 +10,15 @@ import {AppRoutingModule} from "./app-routing.module";
 import {GamePageModule} from "../pages/game/game.module";
 import {TestPageModule} from "../pages/test/test.module";
 import {Game1PageModule} from "../pages/game1/game1.module";
+import { TestTabsComponent } from '../components/test-tabs/test-tabs';
+import { TabsComponent } from '../components/tabs/tabs';
 
 @NgModule({
   declarations: [
     MyApp,
-    HomePage
+    HomePage,
+    TestTabsComponent,
+    TabsComponent
   ],
   imports: [
     GamePageModule,
@@ -27,7 +31,8 @@ import {Game1PageModule} from "../pages/game1/game1.module";
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage
+    HomePage,
+    TestTabsComponent
   ],
   providers: [
     StatusBar,

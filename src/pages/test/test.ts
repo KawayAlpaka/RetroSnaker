@@ -1,6 +1,7 @@
 import { Component ,ViewChild} from '@angular/core';
 import { IonicPage ,Nav,MenuController} from 'ionic-angular';
 import {TestIonicPage} from "../test-ionic/test-ionic";
+import {TestTabsComponent} from "../../components/test-tabs/test-tabs";
 
 /**
  * Generated class for the TestPage page.
@@ -16,14 +17,15 @@ import {TestIonicPage} from "../test-ionic/test-ionic";
 export class TestPage {
 
   @ViewChild(Nav) nav: Nav;
-  rootPage = TestIonicPage;
-  pages: Array<{title: string, component: any}>;
+  rootPage = TestTabsComponent;
+  pages: Array<{title: string, component?: any,link?:any}>;
   constructor(
     // public navCtrl: NavController, public navParams: NavParams,
     public menu: MenuController
   ) {
     this.pages = [
-      { title: 'TestIonicPage', component: TestIonicPage }
+      { title: 'TestIonicPage', component: TestIonicPage },
+      { title: 'TabsHome', link:"#/tabs/home" }
     ];
   }
 
@@ -31,8 +33,13 @@ export class TestPage {
     console.log('ionViewDidLoad TestPage');
   }
   openPage(page) {
-    this.menu.close();
-    this.nav.setRoot(page.component);
+    if(page.component){
+      this.menu.close();
+      this.nav.setRoot(page.component);
+    }else {
+      window.location.href = page.link;
+    }
+
   }
 
 }
