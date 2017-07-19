@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,ElementRef } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 /**
@@ -15,9 +15,12 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 export class TestListPage {
 
   items:any;
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,private myEle:ElementRef) {
+    this.refresh();
+  }
+  refresh(){
     this.items = [];
-    for(let i=0;i<10;i++){
+    for(let i=0;i<15;i++){
       this.items.push(i);
     }
   }
@@ -27,13 +30,22 @@ export class TestListPage {
   }
 
   doInfinite(infiniteScroll) {
-    console.log('Begin async operation');
+    console.log('b Begin async operation');
 
     setTimeout(() => {
       for (let i = 0; i < 5; i++) {
         this.items.push( this.items.length );
       }
-      console.log('Async operation has ended');
+      console.log('b Async operation has ended');
+      infiniteScroll.complete();
+    }, 3000);
+  }
+  doInfinite1(infiniteScroll) {
+    console.log('t Begin async operation');
+    setTimeout(() => {
+      this.refresh();
+      console.log('t Async operation has ended');
+      this.myEle.nativeElement.querySelector(".scroll-content").scrollTop = 90;
       infiniteScroll.complete();
     }, 3000);
   }
