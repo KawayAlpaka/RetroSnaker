@@ -12,6 +12,7 @@ import {TestPageModule} from "../pages/test/test.module";
 import {Game1PageModule} from "../pages/game1/game1.module";
 import { TestTabsComponent } from '../components/test-tabs/test-tabs';
 import { TabsComponent } from '../components/tabs/tabs';
+import { AppProvider } from '../providers/app/app';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { TabsComponent } from '../components/tabs/tabs';
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    AppProvider
   ]
 })
 export class AppModule {}
