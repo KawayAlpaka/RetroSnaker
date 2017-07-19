@@ -13,6 +13,7 @@ import {Game1PageModule} from "../pages/game1/game1.module";
 import { TestTabsComponent } from '../components/test-tabs/test-tabs';
 import { TabsComponent } from '../components/tabs/tabs';
 import { AppProvider } from '../providers/app/app';
+import {TestListPageModule} from "../pages/test-list/test-list.module";
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { AppProvider } from '../providers/app/app';
     GamePageModule,
     Game1PageModule,
     TestPageModule,
+    TestListPageModule,
     BrowserModule,
     AppRoutingModule,
     IonicModule.forRoot(MyApp)

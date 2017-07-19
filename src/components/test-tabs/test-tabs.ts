@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {TestIonicPage} from "../../pages/test-ionic/test-ionic";
 import {Game1Page} from "../../pages/game1/game1";
+import {TestListPage} from "../../pages/test-list/test-list";
 
 /**
  * Generated class for the TestTabsComponent component.
@@ -16,7 +17,7 @@ export class TestTabsComponent {
 
   text: string;
   tab1Root = TestIonicPage;
-  tab2Root = Game1Page;
+  tab2Root = TestListPage;
   constructor() {
     console.log('Hello TestTabsComponent Component');
     this.text = 'Hello World';
