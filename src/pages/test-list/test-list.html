@@ -14,13 +14,26 @@
 
 
 <ion-content padding>
-  <ion-infinite-scroll [position]="'top'" [threshold]="'1px'" (ionInfinite)="doInfinite1($event)">
-    <ion-infinite-scroll-content></ion-infinite-scroll-content>
-  </ion-infinite-scroll>
 
-  <ion-list>
-    <ion-item *ngFor="let i of items">{{i}}</ion-item>
+  <!--<ion-infinite-scroll [position]="'top'" [threshold]="'1px'" (ionInfinite)="doInfinite1($event)">-->
+    <!--<ion-infinite-scroll-content></ion-infinite-scroll-content>-->
+  <!--</ion-infinite-scroll>-->
+
+  <!--<ion-list>-->
+    <!--<ion-item *ngFor="let i of items">{{i}}</ion-item>-->
+  <!--</ion-list>-->
+
+  <ion-list [virtualScroll]="items" [approxItemHeight]="'500px'" [headerFn]="myHeaderFn" >
+
+    <ion-item-divider *virtualHeader="let header">
+      Header: {{ header }}
+    </ion-item-divider>
+    <ion-item *virtualItem="let item">
+      {{ item }}
+    </ion-item>
+
   </ion-list>
+
 
   <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>

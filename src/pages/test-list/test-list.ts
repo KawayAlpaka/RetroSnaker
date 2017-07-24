@@ -22,9 +22,9 @@ export class TestListPage {
     for(let i=0;i<15;i++){
       this.items.push(i);
     }
-    setTimeout(()=>{
-      this.myEle.nativeElement.querySelector(".scroll-content").scrollTop = 90;
-    },100);
+    // setTimeout(()=>{
+    //   this.myEle.nativeElement.querySelector(".scroll-content").scrollTop = 90;
+    // },100);
 
   }
   ionViewDidLoad() {
@@ -50,6 +50,13 @@ export class TestListPage {
       console.log('t Async operation has ended');
       infiniteScroll.complete();
     }, 3000);
+  }
+
+  myHeaderFn(record, recordIndex, records) {
+    if (recordIndex % 5 === 0) {
+      return 'Header ' + recordIndex;
+    }
+    return null;
   }
 
 }
