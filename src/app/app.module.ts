@@ -14,13 +14,15 @@ import { TestTabsComponent } from '../components/test-tabs/test-tabs';
 import { TabsComponent } from '../components/tabs/tabs';
 import { AppProvider } from '../providers/app/app';
 import {TestListPageModule} from "../pages/test-list/test-list.module";
+import { HahaComponent } from './haha/haha.component';
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
     TestTabsComponent,
-    TabsComponent
+    TabsComponent,
+    HahaComponent
   ],
   imports: [
     GamePageModule,
